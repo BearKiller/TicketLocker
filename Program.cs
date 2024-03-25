@@ -1,9 +1,11 @@
 using Helper;
+using NLog;
 
 string file = "Tickets.csv";
 string option; 
-
-
+string path = Directory.GetCurrentDirectory() + $"{Path.DirectorySeparatorChar}nlog.config";
+var logger = LogManager.LoadConfiguration(path).GetCurrentClassLogger();
+logger.Info("Program started");
 
 do{
     Console.Clear();
