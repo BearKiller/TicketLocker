@@ -10,6 +10,8 @@ var logger = LogManager.LoadConfiguration(path).GetCurrentClassLogger();
 logger.Info("Program started");
 
 TicketFile bugFile = new TicketFile(bugPath);
+EnhancementFile enhancementFile = new EnhancementFile(enhancementPath);
+TaskFile taskFile = new TaskFile(taskPath);
 
 do{
     //Console.Clear();
@@ -53,10 +55,19 @@ do{
             //Reads from the Enhancements.csv file
             case "2":
             if (File.Exists(enhancementPath)) {
-                StreamReader sr = new StreamReader("Enhancements.csv");
-                while (!sr.EndOfStream) {
-                    
-                } sr.Close();
+                foreach (Enhancement enhancement in enhancementFile.Enhancements) {
+                    Console.Write($"\nID: {enhancement.ticketID} - ");
+                    Console.WriteLine($"Summary: {enhancement.summary}");
+                    Console.WriteLine($"Status: {enhancement.status}");
+                    Console.Write($"Priority: {enhancement.priority} - ");
+                    Console.Write($"Submitter: {enhancement.submitter} - ");
+                    Console.WriteLine($"Assigned: {enhancement.assigned}");
+                    Console.WriteLine($"Watchers: {string.Join(", ", enhancement.watching)}");
+                    Console.WriteLine($"Software: {enhancement.software}");
+                    Console.WriteLine($"Cost: {enhancement.cost}");
+                    Console.WriteLine($"Reason: {enhancement.reason}");
+                    Console.WriteLine($"Estimate: {enhancement.estimate}");
+                }
                 break;
             } else {
             Console.WriteLine("File does not exist.");
@@ -66,10 +77,17 @@ do{
             //Reads from the Tasks.csv file
             case "3":
             if (File.Exists(taskPath)) {
-                StreamReader sr = new StreamReader("Tasks.csv");
-                while (!sr.EndOfStream) {
-                    
-                } sr.Close();
+                foreach (Task task in taskFile.Tasks) {
+                    Console.Write($"\nID: {task.ticketID} - ");
+                    Console.WriteLine($"Summary: {task.summary}");
+                    Console.WriteLine($"Status: {task.status}");
+                    Console.Write($"Priority: {task.priority} - ");
+                    Console.Write($"Submitter: {task.submitter} - ");
+                    Console.WriteLine($"Assigned: {task.assigned}");
+                    Console.WriteLine($"Watchers: {string.Join(", ", task.watching)}");
+                    Console.WriteLine($"Project Name: {task.projectName}");
+                    Console.WriteLine($"Due Date: {task.dueDate}");
+                }
                 break;
             } else {
             Console.WriteLine("File does not exist.");
