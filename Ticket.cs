@@ -12,7 +12,8 @@ public abstract class Ticket {
     }
 
     public virtual string Display() {
-        return $"\nTicket ID: {ticketID} \n Summary: {summary} \n Status: {status} \n Priority: {priority} \n Submitter: {submitter} \n Watching: {watching} \n";
+        string watchers = string.Join(", ", watching);
+        return $"\nTicket ID: {ticketID} \n Summary: {summary} \n Status: {status} \n Priority: {priority} \n Submitter: {submitter} \n Watching: {watchers} \n";
     }
 }
 
@@ -22,7 +23,8 @@ public class Bug : Ticket {
     public string severity { get; set; }
     public override string Display()
     {
-        return $"\nTicket ID: {ticketID} \n Summary: {summary} \n Status: {status} \n Priority: {priority} \n Submitter: {submitter} \n Watching: {watching} \n Severity: {severity} \n";
+        string watchers = string.Join(", ", watching);
+        return $"\nTicket ID: {ticketID} \n Summary: {summary} \n Status: {status} \n Priority: {priority} \n Submitter: {submitter} \n Watching: {watchers} \n Severity: {severity} \n";
     }
 }
 
@@ -35,7 +37,8 @@ public class Enhancement : Ticket {
     public string estimate { get; set; }
     public override string Display()
     {
-        return $"\nTicket ID: {ticketID} \n Summary: {summary} \n Status: {status} \n Priority: {priority} \n Submitter: {submitter} \n Watching: {watching} \n Software: {software} \n Reason: {reason} \n Cost: {cost} - Estimate: {estimate} \n";
+        string watchers = string.Join(", ", watching);
+        return $"\nTicket ID: {ticketID} \n Summary: {summary} \n Status: {status} \n Priority: {priority} \n Submitter: {submitter} \n Watching: {watchers} \n Software: {software} \n Reason: {reason} \n Cost: {cost} - Estimate: {estimate} \n";
     }
 }
 
@@ -43,6 +46,7 @@ public class Task : Ticket {
     public string projectName { get; set; }
     public string dueDate { get; set; }
     public virtual string Display() {
-        return $"\nTicket ID: {ticketID} \n Summary: {summary} \n Status: {status} \n Priority: {priority} \n Submitter: {submitter} \n Watching: {watching} \n Projec tName: {projectName} \n Due Date: {dueDate} \n";
+        string watchers = string.Join(", ", watching);
+        return $"\nTicket ID: {ticketID} \n Summary: {summary} \n Status: {status} \n Priority: {priority} \n Submitter: {submitter} \n Watching: {watchers} \n Projec tName: {projectName} \n Due Date: {dueDate} \n";
     }
 }

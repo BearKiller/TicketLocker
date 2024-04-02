@@ -19,7 +19,8 @@ do{
 
     Console.WriteLine("\n1.) Read tickets from file.");
     Console.WriteLine("2.) Append new ticket to file.");
-    Console.WriteLine("3.) Exit program.");
+    Console.WriteLine("3.) Search.");
+    Console.WriteLine("4.) Exit program.");
     Console.Write("Enter option > ");
     option = Console.ReadLine();
 
@@ -130,7 +131,7 @@ do{
 
                 Console.WriteLine("Enter any watchers (type 'done' to finish):");
                 newBug.watching = new List<string>();
-                string watcherInput;
+                string? watcherInput;
                 do {
                     watcherInput = Console.ReadLine();
                     if (watcherInput.ToLower() != "done")
@@ -170,7 +171,7 @@ do{
 
                 Console.WriteLine("Enter any watchers (type 'done' to finish):");
                 newEnhancement.watching = new List<string>();
-                string watcherInput;
+                string? watcherInput;
                 do {
                     watcherInput = Console.ReadLine();
                     if (watcherInput.ToLower() != "done")
@@ -219,7 +220,7 @@ do{
 
                 Console.WriteLine("Enter any watchers (type 'done' to finish):");
                 newTask.watching = new List<string>();
-                string watcherInput;
+                string? watcherInput;
                 do {
                     watcherInput = Console.ReadLine();
                     if (watcherInput.ToLower() != "done")
@@ -238,10 +239,81 @@ do{
                 logger.Warn("Tasks.csv is missing.");
             }
             break;
+
         }
+        break;
+
+        case "3":
+        logger.Info("User choice: Search");
+        Console.Clear();
+        Console.WriteLine("1. Status | 2. Priority | 3. Submitter");
+        char type = Inputs.GetChar("Search by: ", new char[] {'1', '2', '3'});
+        string? query = null;
+        IEnumerable<Ticket>? queryBugTickets = null;
+        IEnumerable<Ticket>? queryEnhancementTickets = null;
+        IEnumerable<Ticket>? queryTaskTickets = null;
+
+
+        switch(type) {
+
+
+            case '1':
+            query = Inputs.GetString("Enter search query: ");
+            logger.Info($"User query: [{query}] in status");
+            queryBugTickets = bugFile.Bugs.Where(t => t.status.Contains(query));
+            queryEnhancementTickets = enhancementFile.Enhancements.Where(t => t.status.Contains(query));
+            queryTaskTickets = taskFile.Tasks.Where(t => t.status.Contains(query));
+            Console.Clear();
+            Console.WriteLine($"There are {queryBugTickets.Count() + queryEnhancementTickets.Count() + queryTaskTickets.Count()} tickets containing {query} in status.");
+            break;
+
+
+            case '2':
+            query = Inputs.GetString("Enter search query: ");
+            logger.Info($"User query: [{query}] in priorities");
+            queryBugTickets = bugFile.Bugs.Where(t => t.priority.Contains(query));
+            queryEnhancementTickets = enhancementFile.Enhancements.Where(t => t.priority.Contains(query));
+            queryTaskTickets = taskFile.Tasks.Where(t => t.priority.Contains(query));
+            Console.Clear();
+            Console.WriteLine($"There are {queryBugTickets.Count() + queryEnhancementTickets.Count() + queryTaskTickets.Count()} tickets containing {query} in priorities.");
+            break;
+
+
+            case '3':
+            query = Inputs.GetString("Enter search query: ");
+            logger.Info($"User query: [{query}] in submitters");
+            queryBugTickets = bugFile.Bugs.Where(t => t.submitter.Contains(query));
+            queryEnhancementTickets = enhancementFile.Enhancements.Where(t => t.submitter.Contains(query));
+            queryTaskTickets = taskFile.Tasks.Where(t => t.submitter.Contains(query));
+            Console.Clear();
+            Console.WriteLine($"There are {queryBugTickets.Count() + queryEnhancementTickets.Count() + queryTaskTickets.Count()} tickets containing {query} in submitters.");
+            break;
+        }
+
+        Console.WriteLine("- Bug tickets -");
+        foreach (var t in queryBugTickets) {
+            string displayResult = t.Display();
+            Console.WriteLine(displayResult);
+        }
+
+        Console.WriteLine("- Enhancement tickets -");
+        foreach (var t in queryEnhancementTickets) {
+            string displayResult = t.Display();
+            Console.WriteLine(displayResult);
+        }
+
+        Console.WriteLine("- Task tickets -");
+        foreach (var t in queryTaskTickets) {
+            string displayResult = t.Display();
+            Console.WriteLine(displayResult);
+        }
+        Console.WriteLine("Search complete. Press any key to continue.");
+        Console.ReadKey();
+        Console.Clear();
+
         break;
     }
     
 
-} while (option == "1" || option == "2");
+} while (option == "1" || option == "2" || option == "3");
 logger.Info("Program ended");

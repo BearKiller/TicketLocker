@@ -48,5 +48,38 @@ namespace Helper
                 }
             }
         }
+
+        public static char GetChar(string prompt, char[] possibleAnswers)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                string? userInput = Console.ReadLine();
+
+                if (String.IsNullOrEmpty(userInput))
+                {
+                    Console.WriteLine("Please actually enter a character.");
+                    continue;
+                }
+                else
+                {
+                    if (userInput.Length > 1)
+                    {
+                        Console.WriteLine("Please enter a single character.");
+                        continue;
+                    }
+                }
+
+                if (possibleAnswers.Contains(userInput[0]))
+                {
+                    return userInput[0];
+                } else
+                {
+                    Console.WriteLine("Only the following characters are allowed: "
+                        + String.Join(", ", possibleAnswers));
+                    continue;
+                }
+            }
+        }
     }
 }
